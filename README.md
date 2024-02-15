@@ -3,8 +3,14 @@ This involves exploring the High-energy physics citation network. Arxiv HEP-PH (
 
 
 ## References
+
+    FOR PLOTTING:
     http://snap.stanford.edu/data/cit-HepPh.html  (citation network of physicists at hep-ph classification)
     https://networkx.org/documentation/stable/auto_examples/drawing/plot_directed.html 
+
+    FOR ANALYSIS: 
+    https://www.cs.rice.edu/~nakhleh/COMP571/Slides-Spring2015/GraphTheoreticProperties.pdf 
+    https://www.analyticsvidhya.com/blog/2018/04/introduction-to-graph-theory-network-analysis-python-codes/
 
 
 ## Timeline
@@ -19,5 +25,23 @@ This involves exploring the High-energy physics citation network. Arxiv HEP-PH (
         - then tried to draw the nodes with different colors based on their degrees to get the density of the graph at the nodes
         - plotting the graph using matplotlib took a lot of time since the dataset is huge. But for a smaller dataset ot was verified well within a second or two. (smaller dataset, a small subset from the original dataset ,stored in Datasets/cit-HepPh.txt/sample.txt)
         - graph plotted with 5000 points taken from the dataset
-        
+
+
+#### Analysis
+
+``` Degree Distribution```
+
+``` Centrality Measure ```
+
+``` Clustering Coefficient```
+
+``` Connected Components ```
+
+``` Graph Diameter ```
+
+``` Community Detection ```
+
+``` Vizualisation ```
+
+
 

@@ -44,11 +44,52 @@ def main():
         filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
         filtered_network = citation_network.subgraph(filtered_nodes)
         filtered_degrees = dict(filtered_network.degree())
-        plot(filtered_degrees, filtered_network,degree_threshold)
+        # plot(filtered_degrees, filtered_network,degree_threshold)
+        degree_dis(filtered_network)
+        # diameter(filtered_network)
+        clustering(filtered_network)
+        # connectedness(filtered_network)
+        community(filtered_network)
+        vizualisation(filtered_network)
 
     except Exception as e:
         print("Error:", str(e))
 
+
+def degree_dis(citation_network):
+        degrees = [citation_network.degree(node) for node in citation_network.nodes]
+        plt.hist(degrees, bins=20, alpha=0.7)
+        plt.title('Degree Distribution')
+        plt.xlabel('Degree')
+        plt.ylabel('Frequency')
+        plt.show()
+
+def diameter(citation_network):
+    diameter = nx.diameter(citation_network)
+    print(f'Graph Diameter: {diameter}')
+
+def centrality(citation_network):
+    degree_centrality = nx.degree_centrality(citation_network)
+    betweenness_centrality = nx.betweenness_centrality(citation_network)
+    closeness_centrality = nx.closeness_centrality(citation_network)
+
+def clustering(citation_network):
+    clustering_coefficient = nx.average_clustering(citation_network)
+    print(f'Average Clustering Coefficient: {clustering_coefficient}')
+
+def connectedness(citation_network):
+    connected_components = nx.connected_components(citation_network)
+    print(f'Number of Connected Components: {nx.number_connected_components(citation_network)}')
+
+def community(citation_network):
+    communities = nx.community.greedy_modularity_communities(citation_network)
+    print(f'Number of Communities: {len(communities)}')
+
+def vizualisation(citation_network):
+    seed = 13648
+    pos = nx.spring_layout(citation_network, seed)
+    nx.draw(citation_network, pos, with_labels=True, node_size=50, alpha=0.7)
+    plt.show()
 
 if __name__ == "__main__":
     main()
