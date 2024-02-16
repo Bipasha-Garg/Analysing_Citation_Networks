@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime 
 
 def load_citation_network(file_path):
     graph = nx.DiGraph()  
@@ -32,7 +33,21 @@ def plot(filtered_degrees,filtered_network,degree_threshold):
     cbar = plt.colorbar(sm, orientation='vertical', fraction=0.02, pad=0.1)
     cbar.set_label(f'Node Degree >= {degree_threshold}')
     plt.show()
-    
+
+
+def analyze_connected_citations(citation_network, start_year, end_year):
+    start_date = datetime(start_year, 1, 1)
+    end_date = datetime(end_year + 1, 1, 1)  
+    filtered_nodes = [node for node in citation_network.nodes if citation_network.nodes[node]['date'] and start_date <= datetime.strptime(citation_network.nodes[node]['date'], "%Y-%m-%d") < end_date]
+    filtered_network = citation_network.subgraph(filtered_nodes)
+    year_labels = {node: datetime.strptime(citation_network.nodes[node]['date'], "%Y-%m-%d").strftime("%Y") for node in filtered_network.nodes}
+    unique_years = list(set(year_labels.values()))
+    color_map = plt.cm.get_cmap('tab10', len(unique_years))
+    node_colors = [color_map(unique_years.index(year)) for year in year_labels.values()]
+    pos = nx.spring_layout(filtered_network, seed=42)
+    print(f"Time Frame: {start_year}-{end_year}, Number of Nodes: {filtered_network.number_of_nodes()}, Number of Edges: {filtered_network.number_of_edges()}")
+    return citation_network
+
 def main():
     # dataset_path = "./Datasets/cit-HepPh.txt/Cit-HepPh.txt"
     # dataset_path = "./Datasets/cit-HepPh.txt/sample_100.txt"
@@ -44,7 +59,9 @@ def main():
         filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
         filtered_network = citation_network.subgraph(filtered_nodes)
         filtered_degrees = dict(filtered_network.degree())
+        filtered_network = analyze_connected_citations(filtered_network,2000,2001)
         # plot(filtered_degrees, filtered_network,degree_threshold)
+        
         degree_dis(filtered_network)
         # diameter(filtered_network)
         clustering(filtered_network)
