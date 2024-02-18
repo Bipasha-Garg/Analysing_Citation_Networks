@@ -169,6 +169,8 @@ COMMUNITIES over 255000 datapoints
 
 #### Observation: & Finding
     
+##### (Temporal Community Detection)
+    
     An additional observation based on the provided images is that larger communities appear to experience more significant growth compared to smaller ones over the years 1998-2001. The images suggest that the size disparity between large and small communities becomes more pronounced as time progresses.
 
     This observation may indicate a potential cumulative advantage or preferential attachment phenomenon, where well-established and larger communities attract more attention, collaboration, and citations. As these larger communities accumulate more contributors and citations, they might have a competitive edge over smaller communities, leading to their continued growth.
@@ -178,3 +180,6 @@ COMMUNITIES over 255000 datapoints
     This dynamic pattern underscores the importance of understanding the mechanisms driving the growth of research communities and raises questions about how to ensure equitable opportunities for smaller communities to thrive and contribute meaningfully to the academic landscape.
 
     In summary, the observation suggests that, over the years 1998-2001, larger communities tend to experience more substantial growth compared to smaller ones, possibly reflecting a pattern of cumulative advantage in the academic and research domains.
+
+### LINK PREDICTION
+   As we can observe a growth of citations in similar domains. We can certainly predict the upcoming papers' domains which will further be useful to predict.
