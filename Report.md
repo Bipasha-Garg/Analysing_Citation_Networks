@@ -45,7 +45,7 @@ Metrics calculated for 12000 datapoints:
         The number of communities in a network refers to the presence of distinct groups of nodes that are more densely connected internally than with the rest of the network. An increase in the number of communities suggests a higher level of modularity or compartmentalization within the citation network.
 
         This might indicate the emergence of more specialized or niche areas of research within high-energy physics. Papers within each community may share more common references and themes, contributing to the formation of distinct clusters.
-        
+
 
 DEGREE OF NODE i.e. PAPERS PER YEAR (12000 data points)
 
@@ -98,6 +98,7 @@ The choice between Louvain and Girvan-Newman depends on the specific characteris
 
 In general, Louvain is often preferred for its speed and efficiency, especially in large networks, but Girvan-Newman may be more suitable when analyzing networks with distinct bridge-like edges between communities.
 
+##### OBSERVATION
     As we can observe in the below images that Louvain Algorithm gives us more dense communities whereas in girvan it is not the case.
 
 ### GIRVAN NEWMAN ALGORITGM
@@ -153,7 +154,9 @@ COMMUNITIES over 255000 datapoints
 <img title="Communities" alt="Alt text" src="./Report_Task_2/2000_communities.png" width="400" height="300">
 <img title="Communities" alt="Alt text" src="./Report_Task_2/2001_communities.png" width="400" height="300">
 
-    Observation: An additional observation based on the provided images is that larger communities appear to experience more significant growth compared to smaller ones over the years 1998-2001. The images suggest that the size disparity between large and small communities becomes more pronounced as time progresses.
+#### Observation: & Finding
+    
+    An additional observation based on the provided images is that larger communities appear to experience more significant growth compared to smaller ones over the years 1998-2001. The images suggest that the size disparity between large and small communities becomes more pronounced as time progresses.
 
     This observation may indicate a potential cumulative advantage or preferential attachment phenomenon, where well-established and larger communities attract more attention, collaboration, and citations. As these larger communities accumulate more contributors and citations, they might have a competitive edge over smaller communities, leading to their continued growth.
 
