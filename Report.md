@@ -2,36 +2,49 @@
 
 ## TASK 1
 
-    Major analysis is performed on dataset of 5000 points and 12000 points over the years`1900-2023` majorly.
+### Major analysis is performed on dataset of 5000 points and 12000 points over the years`1900-2023` majorly.
 
-Metrics calculated for 25500 datapoints:
+### Metrics for 25,500 Datapoints:
 
-    1. Number of Strongly Connected Components: 11861
+1. **Number of Strongly Connected Components (SCCs):**
+   - The network is divided into a substantial number of strongly connected components (11,861). This indicates that within each of these components, there is a path between every pair of nodes, but the components themselves may not be connected.
 
-    2. Average Clustering Coefficient: 0.032850756246654275
+2. **Average Clustering Coefficient:**
+   - The average clustering coefficient is relatively low (0.033). This suggests a lower tendency for nodes to form tightly knit clusters or communities. The network might be more decentralized, with connections spread out rather than forming local clusters.
 
-    3. Number of Communities: 2554
+3. **Number of Communities:**
+   - The network is partitioned into a large number of communities (2,554). This indicates that there are distinct groups of nodes that are more densely connected within themselves than with the rest of the network. The research topics or themes might be diverse and segmented.
 
-    4. The graph is not strongly connected.
+4. **Graph Connectivity:**
+   - The graph is not strongly connected, confirming the presence of multiple strongly connected components.
 
-    5. no. of node: 11866
+5. **Number of Nodes and Edges:**
+   - The network consists of 11,866 nodes and 18,784 edges.
 
-    6. no. of edges: 18784
+### Metrics for 12,000 Datapoints:
 
-Metrics calculated for 12000 datapoints:
+1. **Number of Strongly Connected Components (SCCs):**
+   - The network is divided into a fewer number of strongly connected components (5,489) compared to the larger dataset.
 
-    1. Number of Strongly Connected Components: 5489
+2. **Average Clustering Coefficient:**
+   - The average clustering coefficient is higher (0.068) compared to the larger dataset. This suggests a higher tendency for nodes to form local clusters or communities.
 
-    2. Average Clustering Coefficient: 0.06775297322004578
+3. **Number of Communities:**
+   - The network has a lower number of communities (637) compared to the larger dataset. This might indicate a more cohesive structure with fewer distinct research themes.
 
-    3. Number of Communities: 637
+4. **Graph Connectivity:**
+   - Similar to the larger dataset, the graph is not strongly connected.
 
-    4. The graph is not strongly connected.
+5. **Number of Nodes and Edges:**
+   - The network consists of 5,493 nodes and 10,824 edges.
 
-    5. no. of node:  5493
+### Observations:
 
-    6. no. of edges: 10824
+- The larger dataset exhibits a more decentralized and diverse structure with a higher number of strongly connected components and communities.
+  
+- The smaller dataset, while having fewer strongly connected components and communities, has a higher average clustering coefficient, indicating a relatively more clustered or cohesive structure.
 
+- The differences in these metrics suggest variations in the structure and organization of the citation network based on the size of the dataset. Further analysis and domain-specific knowledge would be valuable to interpret these observations in the context of high-energy physics research.
 
 `    Decrease in Clustering Coefficient:`
 
