@@ -4,6 +4,20 @@
 
     Major analysis is performed on dataset of 5000 points and 12000 points over the years`1900-2023` majorly.
 
+Metrics calculated for 25500 datapoints:
+
+    1. Number of Strongly Connected Components: 11861
+
+    2. Average Clustering Coefficient: 0.032850756246654275
+
+    3. Number of Communities: 2554
+
+    4. The graph is not strongly connected.
+
+    5. no. of node: 11866
+
+    6. no. of edges: 18784
+
 Metrics calculated for 12000 datapoints:
 
     1. Number of Strongly Connected Components: 5489
@@ -14,25 +28,26 @@ Metrics calculated for 12000 datapoints:
 
     4. The graph is not strongly connected.
 
-    5. no. of node: 4045
+    5. no. of node:  5493
 
-    6. no. of edges:2741
+    6. no. of edges: 10824
 
-Metrics calculated for 25500 datapoints:
 
-    1. Number of Strongly Connected Components: 
+`    Decrease in Clustering Coefficient:`
 
-    2. Average Clustering Coefficient
+        The clustering coefficient measures the tendency of nodes to form clusters or groups in a network. A decrease in the clustering coefficient indicates a reduction in the local density of connections between neighboring nodes.
 
-    3. Number of Communities: 
+        This could imply that the citation network is becoming more decentralized or that the connections between papers are less likely to form closed triads (clusters of interconnected nodes). Papers might be citing a more diverse set of sources or there could be an increasing influence of external factors impacting the network structure.
 
-    4. The graph is not strongly connected.
 
-    5. no. of node: 
+`    Increase in the Number of Communities:`
 
-    6. no. of edges: 
+        The number of communities in a network refers to the presence of distinct groups of nodes that are more densely connected internally than with the rest of the network. An increase in the number of communities suggests a higher level of modularity or compartmentalization within the citation network.
 
-DEGREE OF NODE i.e. PAPERS PER YEAR  (12000 data points)
+        This might indicate the emergence of more specialized or niche areas of research within high-energy physics. Papers within each community may share more common references and themes, contributing to the formation of distinct clusters.
+        
+
+DEGREE OF NODE i.e. PAPERS PER YEAR (12000 data points)
 
 <img title="PAPERS PER YEAR (12000 data points)" alt="Alt text" src="./Report_Task_1/12000_bargraph_citations_yearly_indicator.png" width="400" height="300">
 
@@ -41,6 +56,7 @@ PAPERS PER YEAR (12000 data points)
 <img title="PAPERS PER YEAR (12000 data points)" alt="Alt text" src="./Report_Task_1/12000_linegraph_citations_yearly.png" width="400" height="300">
 
     We can observe a sudden drop in the papers in 2002 which could be potentially because the dataset is biased since before the sudden drop the papers published were around average only.
+
 <!--  EDGES i.e. CITATIONS PER YEAR -->
 
 <!-- NETWORK (12000 data points) PER YEAR
@@ -52,14 +68,14 @@ NETWORK (5000 data points) PER YEAR
 NETWORK (5000 data points)
 <img title="NETWORK (5000 data points)" alt="Alt text" src="./Report_Task_1/8-deg_0_directed__5000.png" width="400" height="300"> -->
 
-
 ## ALGORITHM TO FIND COMMUNITES
+
 `Louvain Method:`
 
     Modularity-Based Approach: The Louvain method is a modularity-based algorithm. It aims to maximize the modularity of the network, which is a measure that evaluates the quality of a division of a network into communities.
 
     Greedy Optimization: The Louvain method employs a greedy optimization technique, where nodes are iteratively moved between communities to improve the modularity.
-    
+
     Fast and Scalable: It is known for its speed and scalability, making it suitable for large-scale networks.
 
 `Girvan-Newman Algorithm:`
@@ -71,7 +87,7 @@ NETWORK (5000 data points)
     Computationally Intensive: The Girvan-Newman algorithm can be computationally intensive, especially on large networks, due to the need to calculate betweenness for all edges.
 
 `Comparison:`
-    Objective Function: Louvain optimizes modularity, while Girvan-Newman aims to identify edges with high betweenness. The objectives are different, and the algorithms have different ways of achieving their goals.
+Objective Function: Louvain optimizes modularity, while Girvan-Newman aims to identify edges with high betweenness. The objectives are different, and the algorithms have different ways of achieving their goals.
 
     Speed and Scalability: Louvain is often considered faster and more scalable, making it suitable for large networks. Girvan-Newman can be computationally expensive, particularly on larger graphs.
 
@@ -99,11 +115,11 @@ COMMUNITIES over 12000 datapoints
 
 <img title="Communities" alt="Alt text" src="./Report_Task_2/12-Girvan-12000-deg0_connected.png" width="400" height="300">
 <img title="Communities" alt="Alt text" src="./Report_Task_2/16-Community_size_12000_girvan.png" width="400" height="300">
+
 COMMUNITIES over 25500 datapoints
 
 <img title="Communities" alt="Alt text" src="./Report_Task_2/13-Girvan-25500-deg0_connected.png" width="400" height="300">
 <img title="Communities" alt="Alt text" src="./Report_Task_2/15-Community_size_25500_girvan.png" width="400" height="300">
-
 
 ### LOUVAIN ALGORITHM
 
@@ -122,19 +138,15 @@ COMMUNITIES over 5000 datapoints
 COMMUNITIES over 12000 datapoints
 
 <img title="Communities" alt="Alt text" src="./Report_Task_2/7-Louvain_12000_deg0_connected.png" width="400" height="300">
+
 <img title="Communities" alt="Alt text" src="./Report_Task_2/17-Community_size_12000.png" width="400" height="300">
-
-
 
 COMMUNITIES over 255000 datapoints
 
 <img title="Communities" alt="Alt text" src="./Report_Task_2/8-Louvain_255000_deg0_connected.png" width="400" height="300">
 <img title="Communities" alt="Alt text" src="./Report_Task_2/10-Community_size_25500.png" width="400" height="300">
 
-
 # Communities formed over years 1998-2001
-
-
 
 <img title="Communities" alt="Alt text" src="./Report_Task_2/1998_communities.png" width="400" height="300">
 <img title="Communities" alt="Alt text" src="./Report_Task_2/1999_communities.png" width="400" height="300">

@@ -90,7 +90,7 @@ def analyze_connected_citations(citation_network, start_year, end_year):
     plt.annotate(f'Time Frame: {start_year}-{end_year}', xy=(0.5, 1.02), xycoords='axes fraction', ha='center', fontsize=10)
     plt.annotate(f'Number of Nodes: {filtered_network.number_of_nodes()} and Number of Edges: {filtered_network.number_of_edges()}', xy=(0.5, 0.95), xycoords='axes fraction', ha='center', fontsize=10)
     plt.title(f'Citation Network - {start_year}-{end_year}')
-    plt.show()
+    # plt.show()
 
     return filtered_network
 
@@ -158,7 +158,7 @@ def main():
     # dataset_path = "../Datasets/cit-HepPh.txt/Cit-HepPh.txt"
     # dataset_path = "../Datasets/cit-HepPh.txt/sample_200.txt"
     # dataset_path = "../Datasets/cit-HepPh.txt/sample_5000.txt"
-    dataset_path ="/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh.txt/sample_12000.txt"
+    dataset_path ="/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh.txt/sample_10000.txt"
     date_file_path = "/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh-dates.txt"
 
 
@@ -169,10 +169,10 @@ def main():
         filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
         filtered_network = citation_network.subgraph(filtered_nodes)
         filtered_degrees = dict(filtered_network.degree())
-        filtered_network = analyze_connected_citations(filtered_network,1900,2023)
+        filtered_network = analyze_connected_citations(filtered_network, 1900, 2023)
         
         citations_per_year(filtered_network)
-        connectedness(filtered_network)
+        connectedness(filtered_network)  # Added this line
         degree_dis(filtered_network)
         clustering(filtered_network)
         community(filtered_network)
@@ -180,7 +180,6 @@ def main():
         vizualisation(filtered_network)
         
         diameter(filtered_network)
-
 
     except Exception as e:
         print("Error:", str(e))

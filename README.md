@@ -15,16 +15,34 @@ This involves exploring the High-energy physics citation network. Arxiv HEP-PH (
 
 ## Timeline
 
-    - Tried to use snap library but failed due to some version issues to build the graph.
-    - used networkx and it worked
-    - but the number of nodes obtained is: 34546 and Edges: 420921; the number of edges are less than that mentioned in the dataset doc since there  each unordered pair of nodes is saved once only. therefore it is accounted once only while making the graph.
+
+`Library Exploration`
+    Explored the possibility of using the SNAP library for graph analysis but encountered version issues, leading to the decision to use NetworkX for building the graph.
+
+`Graph Construction`
+    Successfully constructed the citation network using NetworkX. Noted that the edge count is less than mentioned in the dataset documentation due to the representation of unordered pairs.
+
+`Node Visualization`
+    Implemented node visualization with different colors based on their degrees to visually inspect the density of the graph at nodes. This step provides an initial understanding of the distribution of citations.
+
+`Matplotlib Performance Testing`
+    Encountered performance challenges while plotting the entire graph using Matplotlib due to its large size. Conducted tests with a smaller dataset (from Datasets/cit-HepPh.txt/sample_5000.txt) successfully within a few seconds.
+
+`Graph Plotting`
+    Successfully plotted a subset of the graph containing 5000 points to provide a visual representation of the citation network. This step helps in gaining insights into the overall structure and connections within the high-energy physics community.
+
+`Metric Analysis`
+
+    Initiated the analysis of various metrics to understand the characteristics of the citation network. Metrics include degree distribution, centrality measures, clustering coefficient, connected components, graph diameter, community detection, and visualization techniques.
+
+`Documentation and References`
+
+    Referenced external sources such as Graph Theoretic Properties and Analytics Vidhya for guidance on graph analysis techniques.
+
+`Larger dataset`
+    Used a larger dataset of 12000 and 25500 points to get better analysis. The smaller dataset was used for testing purposes, but the larger one is needed for more accurate results.
 
 
-### STEPS
-        - made the graph network using networkx
-        - then tried to draw the nodes with different colors based on their degrees to get the density of the graph at the nodes
-        - plotting the graph using matplotlib took a lot of time since the dataset is huge. But for a smaller dataset ot was verified well within a second or two. (smaller dataset, a small subset from the original dataset ,stored in Datasets/cit-HepPh.txt/sample.txt)
-        - graph plotted with 5000 points taken from the dataset
 
 
 #### Metrics used for  Analysis
