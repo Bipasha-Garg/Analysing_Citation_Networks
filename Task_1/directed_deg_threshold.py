@@ -3,8 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def load_citation_network(file_path):
-    # graph = nx.DiGraph()  
-    graph = nx.Graph()  
+    graph = nx.DiGraph()  
+    # graph = nx.Graph()  
 
     with open(file_path, 'r') as file:
         for line in file:
@@ -39,19 +39,20 @@ def plot(filtered_network, degree_threshold):
     plt.show()
 
 def main():
-    # dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
-    # dataset_path = "./Datasets/cit-HepPh.txt/sample_100.txt"
-    dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
+    # dataset_path = "../Datasets/cit-HepPh.txt/sample_5000.txt"
+    dataset_path = "../Datasets/cit-HepPh.txt/sample_200.txt"
+
+    # dataset_path = "../Datasets/cit-HepPh.txt/sample_100.txt"
 
     try:
         citation_network = load_citation_network(dataset_path)
-        degree_threshold = 0
+        degree_threshold = 5
         # original_degrees = dict(citation_network.degree())
         # print("Original degrees:", original_degrees)
         # print(len(original_degrees))
         # Ensure that only nodes with degrees greater than or equal to the threshold are included
-        # filtered_nodes = [node for node in citation_network.nodes if citation_network.out_degree(node) >= degree_threshold]
-        filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
+        filtered_nodes = [node for node in citation_network.nodes if citation_network.out_degree(node) >= degree_threshold]
+        # filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
         filtered_network = citation_network.subgraph(filtered_nodes)    
         # filtered_degrees = dict(filtered_network.degree())
         # print("Filtered degrees:", filtered_degrees)
@@ -63,5 +64,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-# 1-deg_0_without_date_undirected

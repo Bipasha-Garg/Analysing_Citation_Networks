@@ -21,13 +21,11 @@ def load_citation_network(file_path, date_file_path):
                 continue
             source, target = map(str.strip, line.split())
 
-            # Add nodes with their respective dates
             if source not in graph.nodes:
                 graph.add_node(source, date=node_dates.get(source, None))
             if target not in graph.nodes:
                 graph.add_node(target, date=node_dates.get(target, None))
 
-            # Add edge with the date
             graph.add_edge(source, target)
 
     return graph
@@ -72,6 +70,8 @@ def plot(filtered_network, degree_threshold):
 
 def main():
     dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
+
     date_file_path = "./Datasets/cit-HepPh-dates.txt"
 
     try:

@@ -82,13 +82,13 @@ def temporal_community_detection(citation_network, start_year, end_year, step=1)
 
 def main():
     dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_100.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
     date_file_path = "./Datasets/cit-HepPh-dates.txt"
 
     try:
         citation_network = load_citation_network(dataset_path, date_file_path)
-
-        # Analyze temporal slices and perform community detection
-        temporal_community_detection(citation_network, 2005, 2005, step=1)
+        temporal_community_detection(citation_network, 2001, 2001, step=1)
 
     except Exception as e:
         print("Error:", str(e))

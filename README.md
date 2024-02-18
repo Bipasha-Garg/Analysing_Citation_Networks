@@ -27,7 +27,7 @@ This involves exploring the High-energy physics citation network. Arxiv HEP-PH (
         - graph plotted with 5000 points taken from the dataset
 
 
-#### Analysis
+#### Metrics used for  Analysis
 
 ``` Degree Distribution```
 

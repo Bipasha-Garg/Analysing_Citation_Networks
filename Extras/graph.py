@@ -46,7 +46,8 @@ def update_plot(frame, ax, filtered_network, degree_threshold, sc, cbar):
 
 def main():
     dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
-    
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_100.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
     try:
         citation_network = load_citation_network(dataset_path)
         degree_threshold = 0

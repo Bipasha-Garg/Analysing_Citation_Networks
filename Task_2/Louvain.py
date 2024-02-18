@@ -2,7 +2,6 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import community
 from datetime import datetime
-from networkx.algorithms.community.centrality import girvan_newman
 
 def load_citation_network(file_path, date_file_path):
     graph = nx.Graph()
@@ -37,38 +36,27 @@ def load_citation_network(file_path, date_file_path):
 
     return graph
 
-def detect_communities_girvan_newman(graph):
-    # Use Girvan-Newman algorithm to detect communities
-    communities_generator = girvan_newman(graph)
-    # Choose the desired number of communities or stop criterion
-    desired_communities = 2  # You can adjust this number
-    communities = next(communities_generator)
-    for i in range(desired_communities - 1):
-        communities = next(communities_generator)
-    return communities
-
-def plot_girvan_newman_communities(graph, communities, pos, degree_threshold):
-    node_colors = [0] * graph.number_of_nodes()
+def plot_communities(graph, partition, pos, degree_threshold):
+    node_colors = [partition[node] for node in graph.nodes]
     
-    for idx, comm in enumerate(communities):
-        for node in comm:
-            node_colors[node] = idx + 1
-
+    if not node_colors:
+        print("No nodes to plot.")
+        return
+    
     plt.figure(figsize=(10, 8))
     cmap = plt.cm.get_cmap("rainbow", len(set(node_colors)))
     nx.draw_networkx_nodes(graph, pos, node_size=50, node_color=node_colors, cmap=cmap, edgecolors='k', linewidths=0.5)
     nx.draw_networkx_edges(graph, pos, alpha=0.1)
     plt.xticks([])
-    plt.yticks()
+    plt.yticks([])
     
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=min(node_colors), vmax=max(node_colors)))
     sm._A = []  # Fix for ScalarMappable
     cbar = plt.colorbar(sm, orientation='vertical', fraction=0.02, pad=0.1)
     cbar.set_label(f'Community')
     
-    plt.title(f'Communities (Girvan-Newman Algorithm) - Degree >= {degree_threshold}')
+    plt.title(f'Communities (Louvain Algorithm) - Degree >= {degree_threshold}')
     plt.show()
-
 
 def analyze_temporal_slices(citation_network, start_year, end_year, step=1):
     for year in range(start_year, end_year + 1, step):
@@ -111,9 +99,25 @@ def analyze_connected_citations(citation_network, start_year, end_year):
     # Assign colors to nodes based on years
     node_colors = [color_map(unique_years.index(year)) for year in year_labels.values()]
     return filtered_network
+def plot_communities_2(graph, partition, pos, degree_threshold):
+    # Count the number of members in each community
+    community_sizes = {community_number: 0 for community_number in set(partition.values())}
+    for node, community_number in partition.items():
+        community_sizes[community_number] += 1
+
+    # Plotting the line graph
+    plt.figure(figsize=(12, 6))
+    plt.plot(list(community_sizes.keys()), list(community_sizes.values()), marker='o', linestyle='-', color='orange')
+    plt.title('Community Sizes')
+    plt.xlabel('Community Number')
+    plt.ylabel('Number of Members')
+    plt.grid(True)
+    plt.show()
 
 def main():
-    dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_100.txt"
+    dataset_path = "./Datasets/cit-HepPh.txt/sample_12000.txt"
     date_file_path = "./Datasets/cit-HepPh-dates.txt"
 
     try:
@@ -122,21 +126,19 @@ def main():
         filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
         filtered_network_degree = citation_network.subgraph(filtered_nodes)
         filtered_degrees = dict(filtered_network_degree.degree())
-        
+
         # Analyze temporal slices
-        temporal_filtered_network = analyze_temporal_slices(citation_network, 1998, 1998, step=1)
-        
-        # Analyze connected citations
-        connected_filtered_network = analyze_connected_citations(filtered_network_degree, 1998, 1998)
-        # Girvan-Newman community detection
-        communities_girvan_newman = next(girvan_newman(connected_filtered_network))
-        partition_girvan_newman = {node: idx for idx, comm in enumerate(communities_girvan_newman) for node in list(comm)}
-        
-        pos_girvan_newman = nx.spring_layout(connected_filtered_network, seed=13648)
+        # temporal_filtered_network = analyze_temporal_slices(citation_network, 1950, 2005, step=1)
+        # partition_temporal = community.best_partition(temporal_filtered_network)
+        # pos_temporal = nx.spring_layout(temporal_filtered_network, seed=13648)
+        # plot_communities(temporal_filtered_network, partition_temporal, pos_temporal, degree_threshold)
 
-        # Plot communities for Girvan-Newman
-        plot_girvan_newman_communities(connected_filtered_network, communities_girvan_newman, pos_girvan_newman, degree_threshold)
-
+        # Analyze connected slices
+        connected_filtered_network = analyze_connected_citations(filtered_network_degree, 1950, 2005)
+        partition_connected = community.best_partition(connected_filtered_network)
+        pos_connected = nx.spring_layout(connected_filtered_network, seed=13648)
+        plot_communities(connected_filtered_network, partition_connected, pos_connected, degree_threshold)
+        plot_communities_2(connected_filtered_network, partition_connected, pos_connected, degree_threshold)
     except Exception as e:
         print("Error:", str(e))
 

@@ -1,13 +1,84 @@
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
 from datetime import datetime 
 
+def citations_per_year_bar(citation_network):
+    node_dates = nx.get_node_attributes(citation_network, 'date')
+    years = [datetime.strptime(date, "%Y-%m-%d").year for date in node_dates.values()]
+
+    # Count the number of citations per year
+    citations_by_year = {}
+    for year in set(years):
+        citations_by_year[year] = years.count(year)
+
+    # Bar Plot
+    plt.figure(figsize=(12, 6))
+    plt.bar(list(citations_by_year.keys()), list(citations_by_year.values()), color='skyblue')
+    plt.title('Citations per Year')
+    plt.xlabel('Year')
+    plt.ylabel('Number of Citations')
+    plt.grid(axis='y')
+    plt.show()
+
+def increase_decrease_citations_bar(citation_network):
+    node_dates = nx.get_node_attributes(citation_network, 'date')
+    years = [datetime.strptime(date, "%Y-%m-%d").year for date in node_dates.values()]
+
+    # Count the number of citations per year
+    citations_by_year = {}
+    for year in set(years):
+        citations_by_year[year] = years.count(year)
+
+    # Calculate increase or decrease
+    change_in_citations = {year: citations_by_year[year] - citations_by_year[year - 1] for year in range(min(years), max(years) + 1)}
+
+    # Bar Plot
+    plt.figure(figsize=(12, 6))
+    plt.bar(list(change_in_citations.keys()), list(change_in_citations.values()), color='lightcoral')
+    plt.title('Increase/Decrease in Citations per Year')
+    plt.xlabel('Year')
+    plt.ylabel('Change in Citations')
+    plt.grid(axis='y')
+    plt.show()
+
+def yearly_analysis_bar(citation_network, start_year, end_year):
+    start_date = datetime(start_year, 1, 1)
+    end_date = datetime(end_year + 1, 1, 1)  
+
+    filtered_nodes = [node for node in citation_network.nodes if citation_network.nodes[node]['date'] and start_date <= datetime.strptime(citation_network.nodes[node]['date'], "%Y-%m-%d") < end_date]
+
+    filtered_network = citation_network.subgraph(filtered_nodes)
+    year_labels = {node: datetime.strptime(citation_network.nodes[node]['date'], "%Y-%m-%d").strftime("%Y") for node in filtered_network.nodes}
+    unique_years = list(set(year_labels.values()))
+    color_map = plt.cm.get_cmap('tab10', len(unique_years))
+    node_colors = [color_map(unique_years.index(year)) for year in year_labels.values()]
+
+    pos = nx.spring_layout(filtered_network, seed=42)
+    
+    # Bar Plot for Number of Nodes
+    plt.figure(figsize=(10, 6))
+    plt.bar(unique_years, [year_labels.count(year) for year in unique_years], color='lightgreen')
+    plt.title(f'Number of Nodes per Year - {start_year}-{end_year}')
+    plt.xlabel('Year')
+    plt.ylabel('Number of Nodes')
+    plt.grid(axis='y')
+    plt.show()
+
+    # Bar Plot for Number of Edges
+    plt.figure(figsize=(10, 6))
+    plt.bar(unique_years, [filtered_network.number_of_edges(year_labels, year) for year in unique_years], color='lightblue')
+    plt.title(f'Number of Edges per Year - {start_year}-{end_year}')
+    plt.xlabel('Year')
+    plt.ylabel('Number of Edges')
+    plt.grid(axis='y')
+    plt.show()
+
 def load_citation_network(file_path, date_file_path):
     graph = nx.DiGraph()
     # graph = nx.Graph()
 
-    # Load date information from the file
     date_dict = {}
     with open(date_file_path, 'r') as date_file:
         for line in date_file:
@@ -16,7 +87,6 @@ def load_citation_network(file_path, date_file_path):
             paper_id, date_str = line.strip().split()
             date_dict[int(paper_id)] = date_str
 
-    # Load citation network from the main file
     with open(file_path, 'r') as file:
         for line in file:
             if line.startswith("#"):
@@ -27,7 +97,6 @@ def load_citation_network(file_path, date_file_path):
             graph.add_edge(source, target)
 
     return graph
-
 
 def plot(filtered_degrees,filtered_network,degree_threshold):
     # degree_threshold =10
@@ -41,11 +110,10 @@ def plot(filtered_degrees,filtered_network,degree_threshold):
     plt.xticks([])
     plt.yticks([])
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=plt.Normalize(vmin=degree_threshold, vmax=max(node_colors)))
-    sm._A = []  # Fix for ScalarMappable
+    sm._A = []  
     cbar = plt.colorbar(sm, orientation='vertical', fraction=0.02, pad=0.1)
     cbar.set_label(f'Node Degree >= {degree_threshold}')
     plt.show()
-
 
 # def analyze_connected_citations(citation_network, start_year, end_year):
 #     start_date = datetime(start_year, 1, 1)
@@ -96,35 +164,25 @@ def analyze_connected_citations(citation_network, start_year, end_year):
 
     return filtered_network
 
+def citations_per_year(citation_network):
+    node_dates = nx.get_node_attributes(citation_network, 'date')
 
+    # Extract years from date strings
+    years = [datetime.strptime(date, "%Y-%m-%d").year for date in node_dates.values()]
 
-def main():
-    # dataset_path = "./Datasets/cit-HepPh.txt/Cit-HepPh.txt"
-    # dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
-    dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
-    date_file_path = "Datasets/cit-HepPh-dates.txt"
+    # Count the number of citations per year
+    citations_by_year = {}
+    for year in set(years):
+        citations_by_year[year] = years.count(year)
 
-
-    try:
-        citation_network = load_citation_network(dataset_path, date_file_path)
-    
-        degree_threshold = 0
-        filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
-        filtered_network = citation_network.subgraph(filtered_nodes)
-        filtered_degrees = dict(filtered_network.degree())
-        filtered_network = analyze_connected_citations(filtered_network,1950,2001)
-        connectedness(filtered_network)
-        degree_dis(filtered_network)
-        clustering(filtered_network)
-        community(filtered_network)
-        vizualisation(filtered_network)
-        diameter(filtered_network)
-
-
-    except Exception as e:
-        print("Error:", str(e))
-
-
+    # Plotting
+    plt.figure(figsize=(12, 6))
+    plt.plot(list(citations_by_year.keys()), list(citations_by_year.values()), marker='o', linestyle='-')
+    plt.title('Citations per Year')
+    plt.xlabel('Year')
+    plt.ylabel('Number of Citations')
+    plt.grid(True)
+    plt.show()
 
 def degree_dis(citation_network):
         degrees = [citation_network.degree(node) for node in citation_network.nodes]
@@ -140,12 +198,10 @@ def diameter(citation_network):
         print(f'Graph Diameter: {diameter_value}')
     else:
         print("The graph is not strongly connected.")
-        # Calculate diameter for each strongly connected component
         for component in nx.strongly_connected_components(citation_network):
             component_subgraph = citation_network.subgraph(component)
             diameter_value = nx.diameter(component_subgraph)
             print(f'Diameter for a strongly connected component: {diameter_value}')
-
 
 def centrality(citation_network):
     degree_centrality = nx.degree_centrality(citation_network)
@@ -176,6 +232,7 @@ def community(citation_network):
 #     nx.draw(citation_network, pos, with_labels=False, node_size=50, alpha=0.7)
 #     nx.draw_networkx_labels(citation_network, pos, labels=date_labels, font_size=8, font_color='r')
 #     plt.show()
+
 def vizualisation(citation_network):
     seed = 13648
     pos = nx.spring_layout(citation_network, seed)
@@ -197,7 +254,117 @@ def vizualisation(citation_network):
     plt.title('Citation Network with Node Colors representing Years')
     plt.show()
 
+def main():
+    dataset_path = "/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh.txt/sample_25500.txt"
+    # dataset_path = "/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh.txt/sample_12000.txt"
+    date_file_path = "/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh-dates.txt"
 
+    try:
+        citation_network = load_citation_network(dataset_path, date_file_path)
+    
+        degree_threshold = 0
+        filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
+        filtered_network = citation_network.subgraph(filtered_nodes)
+        filtered_degrees = dict(filtered_network.degree())
+        filtered_network = analyze_connected_citations(filtered_network, 1990, 2023)
+
+        # citations_per_year_bar(filtered_network)
+        # increase_decrease_citations_bar(filtered_network)
+        # yearly_analysis_bar(filtered_network, 1990, 2023)
+        # citations_per_year(filtered_network)
+        connectedness(filtered_network)
+        degree_dis(filtered_network)
+        clustering(filtered_network)
+        community(filtered_network)
+        vizualisation(filtered_network)
+        diameter(filtered_network)
+
+    except Exception as e:
+        print("Error:", str(e))
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def main():
+    # dataset_path = "../Datasets/cit-HepPh.txt/Cit-HepPh.txt"
+    # dataset_path = "../Datasets/cit-HepPh.txt/sample_200.txt"
+    # dataset_path = "../Datasets/cit-HepPh.txt/sample_5000.txt"
+    dataset_path ="/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh.txt/sample_5000.txt"
+    date_file_path = "/home/bipasha/Desktop/git_files/Analysing_Citation_Networks/Datasets/cit-HepPh-dates.txt"
+
+    try:
+        citation_network = load_citation_network(dataset_path, date_file_path)
+    
+        degree_threshold = 0
+        filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
+        filtered_network = citation_network.subgraph(filtered_nodes)
+        filtered_degrees = dict(filtered_network.degree())
+        filtered_network = analyze_connected_citations(filtered_network, 1900, 2023)
+
+        # Plot number of citations per year
+        citations_per_year(filtered_network)
+
+        # Analyze increase or decrease in citations
+        analyze_citations_trend(filtered_network)
+
+    except Exception as e:
+        print("Error:", str(e))
+
+def analyze_citations_trend(citation_network):
+    node_dates = nx.get_node_attributes(citation_network, 'date')
+
+    # Extract years from date strings
+    years = [datetime.strptime(date, "%Y-%m-%d").year for date in node_dates.values()]
+
+    # Count the number of citations per year
+    citations_by_year = {}
+    for year in set(years):
+        citations_by_year[year] = years.count(year)
+
+    # Calculate the increase or decrease in citations
+    trends = {}
+    previous_count = None
+    for year in sorted(citations_by_year.keys()):
+        count = citations_by_year[year]
+        if previous_count is not None:
+            trend = "Increase" if count > previous_count else "Decrease"
+            trends[year] = {"count": count, "trend": trend}
+        previous_count = count
+
+    # Plotting
+    plt.figure(figsize=(12, 6))
+    plt.bar(list(trends.keys()), [trends[year]["count"] for year in sorted(trends.keys())], color=[("g" if trends[year]["trend"] == "Increase" else "r") for year in sorted(trends.keys())])
+    plt.title('Increase/Decrease in Citations per Year')
+    plt.xlabel('Year')
+    plt.ylabel('Number of Citations')
+    plt.grid(True)
+    plt.show()
 
 if __name__ == "__main__":
     main()

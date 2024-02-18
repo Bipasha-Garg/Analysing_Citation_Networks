@@ -36,7 +36,6 @@ def plot(filtered_degrees, filtered_network, degree_threshold):
     nx.draw_networkx_nodes(filtered_network, pos, node_size=50, node_color=node_colors, cmap=cmap, edgecolors='k', linewidths=0.5)
     nx.draw_networkx_edges(filtered_network, pos, alpha=0.1)
     
-    # Add labels with dates
     date_labels = {node: filtered_network.nodes[node]['date'] for node in filtered_network.nodes}
     nx.draw_networkx_labels(filtered_network, pos, labels=date_labels, font_size=8, font_color='black')
 
@@ -48,11 +47,9 @@ def plot(filtered_degrees, filtered_network, degree_threshold):
     cbar.set_label(f'Node Degree >= {degree_threshold}')
     plt.show()
 
-
-# Rest of the code remains the same...
 def main():
-    dataset_path = "./Datasets/cit-HepPh.txt/sample_100.txt"
-    date_file_path = "Datasets/cit-HepPh-dates.txt"
+    dataset_path = "../Datasets/cit-HepPh.txt/sample_5000.txt"
+    date_file_path = "../Datasets/cit-HepPh-dates.txt"
 
     try:
         citation_network = load_citation_network(dataset_path, date_file_path)
