@@ -68,7 +68,9 @@ PAPERS PER YEAR (12000 data points)
 
 <img title="PAPERS PER YEAR (12000 data points)" alt="Alt text" src="./Report_Task_1/12000_linegraph_citations_yearly.png" width="400" height="300">
 
-    We can observe a sudden drop in the papers in 2002 which could be potentially because the dataset is biased since before the sudden drop the papers published were around average only.
+    We can observe a sudden drop in the papers in 2002 which could be potentially because:
+      - the dataset is biased since before the sudden drop the papers published were around average only.
+      - Decrease in publications and citations over the years as we further see that papers of certain domain are only growing majorily. Therefore the sudden decrease in papers in 2002 could be due to lesser topics in the same domain to work upon.
 
 <!--  EDGES i.e. CITATIONS PER YEAR -->
 
