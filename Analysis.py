@@ -100,8 +100,8 @@ def analyze_connected_citations(citation_network, start_year, end_year):
 
 def main():
     # dataset_path = "./Datasets/cit-HepPh.txt/Cit-HepPh.txt"
-    dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
-    # dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
+    dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
     date_file_path = "Datasets/cit-HepPh-dates.txt"
 
 
@@ -165,17 +165,38 @@ def community(citation_network):
     communities = nx.community.greedy_modularity_communities(citation_network)
     print(f'Number of Communities: {len(communities)}')
 
+# def vizualisation(citation_network):
+#     seed = 13648
+#     pos = nx.spring_layout(citation_network, seed)
+
+#     node_dates = nx.get_node_attributes(citation_network, 'date')
+
+#     date_labels = {node: f"{node}\n{node_dates[node]}" for node in node_dates}
+
+#     nx.draw(citation_network, pos, with_labels=False, node_size=50, alpha=0.7)
+#     nx.draw_networkx_labels(citation_network, pos, labels=date_labels, font_size=8, font_color='r')
+#     plt.show()
 def vizualisation(citation_network):
     seed = 13648
     pos = nx.spring_layout(citation_network, seed)
 
     node_dates = nx.get_node_attributes(citation_network, 'date')
+    years = [datetime.strptime(date, "%Y-%m-%d").strftime("%Y") for date in node_dates.values()]
 
-    date_labels = {node: f"{node}\n{node_dates[node]}" for node in node_dates}
+    unique_years = list(set(years))
+    color_map = plt.cm.get_cmap('tab10', len(unique_years))
+    node_colors = [color_map(unique_years.index(year)) for year in years]
 
-    nx.draw(citation_network, pos, with_labels=False, node_size=50, alpha=0.7)
-    nx.draw_networkx_labels(citation_network, pos, labels=date_labels, font_size=8, font_color='r')
+    plt.figure(figsize=(10, 8))
+    nx.draw(citation_network, pos, with_labels=False, node_size=50, alpha=0.7, node_color=node_colors, cmap=color_map)
+    
+    legend_labels = {unique_years[i]: color_map(i) for i in range(len(unique_years))}
+    legend_handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=color_map(i), markersize=10) for i in range(len(unique_years))]
+    
+    plt.legend(legend_handles, legend_labels.keys(), title='Years')
+    plt.title('Citation Network with Node Colors representing Years')
     plt.show()
+
 
 
 if __name__ == "__main__":
