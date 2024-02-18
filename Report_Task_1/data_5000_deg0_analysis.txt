@@ -1,0 +1,5 @@
+Time Frame: 1950-2001, Number of Nodes: 3971, Number of Edges: 2669
+Number of Strongly Connected Components: 3971
+Average Clustering Coefficient: 0.0010344343811984206
+Number of Communities: 1554
+The graph is not strongly connected.

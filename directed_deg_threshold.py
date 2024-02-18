@@ -4,6 +4,7 @@ import numpy as np
 
 def load_citation_network(file_path):
     graph = nx.DiGraph()  
+    # graph = nx.Graph()  
 
     with open(file_path, 'r') as file:
         for line in file:
@@ -38,7 +39,10 @@ def plot(filtered_network, degree_threshold):
     plt.show()
 
 def main():
-    dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_5000.txt"
+    dataset_path = "./Datasets/cit-HepPh.txt/sample_200.txt"
+
+    # dataset_path = "./Datasets/cit-HepPh.txt/sample_100.txt"
 
     try:
         citation_network = load_citation_network(dataset_path)
@@ -48,7 +52,8 @@ def main():
         # print(len(original_degrees))
         # Ensure that only nodes with degrees greater than or equal to the threshold are included
         filtered_nodes = [node for node in citation_network.nodes if citation_network.out_degree(node) >= degree_threshold]
-        filtered_network = citation_network.subgraph(filtered_nodes)
+        # filtered_nodes = [node for node in citation_network.nodes if citation_network.degree(node) >= degree_threshold]
+        filtered_network = citation_network.subgraph(filtered_nodes)    
         # filtered_degrees = dict(filtered_network.degree())
         # print("Filtered degrees:", filtered_degrees)
         # print(len(filtered_degrees))

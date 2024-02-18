@@ -1,0 +1,4 @@
+Number of Strongly Connected Components: 182
+Average Clustering Coefficient: 0.0
+Number of Communities: 162
+The graph is not strongly connected.
